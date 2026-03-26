@@ -1,0 +1,114 @@
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-mono: "VT323", monospace;
+}
+
+body {
+  background-color: #000;
+  color: #0ff;
+  font-family: "VT323", monospace;
+  overflow: hidden;
+  text-transform: uppercase;
+}
+
+/* Static Noise */
+.static-noise {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 50;
+  opacity: 0.15;
+  background: url('data:image/svg+xml;utf8,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)"/%3E%3C/svg%3E');
+  animation: static-anim 0.2s steps(2) infinite;
+}
+
+@keyframes static-anim {
+  0% { transform: translate(0, 0); }
+  50% { transform: translate(-5%, 5%); }
+  100% { transform: translate(5%, -5%); }
+}
+
+/* Glitch Text */
+.glitch {
+  position: relative;
+  display: inline-block;
+  color: #0ff;
+}
+
+.glitch::before, .glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+}
+
+.glitch::before {
+  left: 3px;
+  text-shadow: -2px 0 #f0f;
+  clip-path: polygon(0 0, 100% 0, 100% 33%, 0 33%);
+  animation: glitch-anim-1 2s infinite linear alternate-reverse;
+}
+
+.glitch::after {
+  left: -3px;
+  text-shadow: -2px 0 #0ff;
+  clip-path: polygon(0 66%, 100% 66%, 100% 100%, 0 100%);
+  animation: glitch-anim-2 3s infinite linear alternate-reverse;
+}
+
+@keyframes glitch-anim-1 {
+  0% { clip-path: polygon(0 10%, 100% 10%, 100% 30%, 0 30%); transform: translate(0); }
+  20% { clip-path: polygon(0 40%, 100% 40%, 100% 60%, 0 60%); transform: translate(-3px); }
+  40% { clip-path: polygon(0 80%, 100% 80%, 100% 90%, 0 90%); transform: translate(3px); }
+  60% { clip-path: polygon(0 20%, 100% 20%, 100% 50%, 0 50%); transform: translate(-3px); }
+  80% { clip-path: polygon(0 70%, 100% 70%, 100% 80%, 0 80%); transform: translate(3px); }
+  100% { clip-path: polygon(0 10%, 100% 10%, 100% 30%, 0 30%); transform: translate(0); }
+}
+
+@keyframes glitch-anim-2 {
+  0% { clip-path: polygon(0 70%, 100% 70%, 100% 80%, 0 80%); transform: translate(0); }
+  20% { clip-path: polygon(0 20%, 100% 20%, 100% 50%, 0 50%); transform: translate(3px); }
+  40% { clip-path: polygon(0 80%, 100% 80%, 100% 90%, 0 90%); transform: translate(-3px); }
+  60% { clip-path: polygon(0 40%, 100% 40%, 100% 60%, 0 60%); transform: translate(3px); }
+  80% { clip-path: polygon(0 10%, 100% 10%, 100% 30%, 0 30%); transform: translate(-3px); }
+  100% { clip-path: polygon(0 70%, 100% 70%, 100% 80%, 0 80%); transform: translate(0); }
+}
+
+/* Screen Tear */
+.tear {
+  animation: tear-anim 4s infinite;
+}
+
+@keyframes tear-anim {
+  0%, 93% { transform: skewX(0); }
+  94% { transform: skewX(8deg); }
+  95% { transform: skewX(-8deg); }
+  96% { transform: skewX(4deg); }
+  97% { transform: skewX(-4deg); }
+  98% { transform: skewX(0); }
+}
+
+/* Scanline */
+.scanline {
+  width: 100%;
+  height: 100px;
+  z-index: 40;
+  position: absolute;
+  pointer-events: none;
+  background: linear-gradient(0deg, rgba(0,0,0,0) 0%, rgba(0,255,255,0.15) 50%, rgba(0,0,0,0) 100%);
+  opacity: 0.5;
+  animation: scanline 4s linear infinite;
+}
+
+@keyframes scanline {
+  0% { top: -100px; }
+  100% { top: 100%; }
+}
